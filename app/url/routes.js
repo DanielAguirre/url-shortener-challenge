@@ -15,24 +15,16 @@ router.get('/:hash', async (req, res, next) => {
 
   // Behave based on the requested format using the 'Accept' header.
   // If header is not provided or is */* redirect instead.
-  const accepts = req.get('Accept');
 
-  switch (accepts) {
-    case 'text/plain':
-      res.end(source.url);
-      break;
-    case 'application/json':
-      res.json(source);
-      break;
-    default:
-      res.redirect(source.url);
-      break;
-  }
+  res.format({
+    'text/plain':() => res.end(source.url),
+    'application/json': () => res.json(source),
+    default:() => res.redirect(source.url)
+  })
 });
 
 
-router.post('/', async (req, res, next) => {
-
+router.post('/', async (req={body:{url:''}}, res, next) => {
   // TODO: Validate 'req.body.url' presence
 
   try {
