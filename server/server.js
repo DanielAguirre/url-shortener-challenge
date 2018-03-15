@@ -2,23 +2,35 @@
 
 require('dotenv').config();
 
+const mongoose = require('mongoose');
+const { Mongo } = require('../environment');
+
+//Set upt Mongodb connection
+const uri = `mongodb://${Mongo.HOST}:${Mongo.PORT}/${Mongo.NAME}`;
+
+/**
+ , {
+  auth: { authSource: Mongo.AUTH },
+  user: Mongo.USER,
+  pass: Mongo.PASS
+}
+ */
+
+mongoose.connect(uri);
+mongoose.Promise = global.Promise; // Use JavaScript promises
+
+mongoose.connection.on('error',(err)=> console.log('fails database', err.message));
+
+require('../models/Urls');
+
 const app = require('../app');
 const server = require('http').Server(app);
-
 /**
  * Get port from environment and store in Express.
  */
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -30,7 +42,7 @@ function normalizePort(val) {
   if (isNaN(port)) {
     // named pipe
     return val;
-  }
+}
 
   if (port >= 0) {
     // port number
@@ -75,3 +87,13 @@ function onListening() {
     : 'port ' + addr.port;
   console.log('Listening on ' + bind);
 }
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+if(!module.parent){
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+} else { module.exports = server }
