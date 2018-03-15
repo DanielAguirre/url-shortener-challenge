@@ -1,7 +1,7 @@
-const mongo = require('../../server/mongodb');
 const mongoose = require('mongoose');
+mongoose.promise = global.Promise;
 
-module.exports = mongo.model('Url', new mongoose.Schema({
+module.exports = mongoose.model('Url', new mongoose.Schema({
   url: {
     type: String,
     required: true
