@@ -1,8 +1,9 @@
 const uuidv4 = require('uuid/v4');
+const mongoose = require('mongoose');
 const { domain } = require('../../environment');
 const SERVER = `${domain.protocol}://${domain.host}`;
 
-const UrlModel = require('./schema');
+const UrlModel = mongoose.model('Url');
 const parseUrl = require('url').parse;
 const validUrl = require('valid-url');
 
