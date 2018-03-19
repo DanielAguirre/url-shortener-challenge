@@ -20,14 +20,11 @@ async function getUrl(hash) {
 
 /**
  * Generate an unique hash-ish- for an URL.
- * TODO: Deprecated the use of UUIDs.
- * TODO: Implement a shortening algorithm
  * @param {string} id
  * @returns {string} hash
  */
-function generateHash(url) {
-  // return uuidv5(url, uuidv5.URL);
-  return uuidv4();
+function generateHash() {
+  return (+Date.now()).toString(36)
 }
 
 /**
@@ -35,7 +32,7 @@ function generateHash(url) {
  * @returns {string} uuid v4
  */
 function generateRemoveToken() {
-  return uuidv4();
+  return (+Date.now()).toString(36).split('').reverse().join('');
 }
 
 /**
