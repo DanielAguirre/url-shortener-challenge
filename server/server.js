@@ -16,10 +16,12 @@ const uri = `mongodb://${Mongo.HOST}:${Mongo.PORT}/${Mongo.NAME}`;
 }
  */
 
-mongoose.connect(uri);
-mongoose.Promise = global.Promise; // Use JavaScript promises
+if(process.env.NODE_ENV !== 'test'){
+  mongoose.connect(uri);
+  mongoose.Promise = global.Promise; // Use JavaScript promises
 
-mongoose.connection.on('error',(err)=> console.log('fails database', err.message));
+  mongoose.connection.on('error',(err)=> console.log('fails database', err.message));
+}
 
 require('../models/Urls');
 
