@@ -1,6 +1,6 @@
-const uuidv4 = require('uuid/v4');
 const mongoose = require('mongoose');
 const { domain } = require('../../environment');
+
 const SERVER = `${domain.protocol}://${domain.host}`;
 
 const UrlModel = mongoose.model('Url');
@@ -58,7 +58,6 @@ async function shorten(url, hash) {
   // Generate a token that will alow an URL to be removed (logical)
   const removeToken = generateRemoveToken();
 
-  // Create a new model instance
   const shortUrl = new UrlModel({
     url,
     protocol,
@@ -91,10 +90,20 @@ function isValid(url) {
   return validUrl.isUri(url);
 }
 
+async function updateUrl(source) {
+  return await UrlModel.findByIdAndUpdate({_id: source._id}, source).exec()
+};
+
+async function removeUrl(hash, removeToken) {
+  return await UrlModel.remove({hash, removeToken}).exec();
+}
+
 module.exports = {
   shorten,
   getUrl,
   generateHash,
   generateRemoveToken,
-  isValid
+  isValid,
+  updateUrl,
+  removeUrl,
 }
