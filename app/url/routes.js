@@ -16,20 +16,21 @@ function validateRegister(req, res, next) {
 router.get('/:hash', async (req, res, next) => {
 
   const source = await url.getUrl(req.params.hash);
+  if(!source) {
+    return res.status(404).json({err: { msg: 'Hash not found'}});
+  }
 
-  // TODO: Respond accordingly when the hash wasn't found (404 maybe?)
+  source.visit = source.visit ? ++source.visit : 1;
 
-  // TODO: Hide fields that shouldn't be public
-
-  // TODO: Register visit
-
+  try {
+    await url.updateUrl(source);
+  } catch (e) {}
 
   // Behave based on the requested format using the 'Accept' header.
   // If header is not provided or is */* redirect instead.
-
   res.format({
     'text/plain':() => res.end(source.url),
-    'application/json': () => res.json(source),
+    'application/json': () => res.json({url: source.url, removeToken: source.removeToken, visit: source.visit}),
     default:() => res.redirect(source.url)
   })
 });
