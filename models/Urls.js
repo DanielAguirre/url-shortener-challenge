@@ -7,6 +7,8 @@ module.exports = mongoose.model('Url', new mongoose.Schema({
     required: true
   },
 
+  visit:Number,
+
   user: mongoose.Schema.Types.ObjectId,
 
   hash: {
