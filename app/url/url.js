@@ -70,8 +70,7 @@ async function shorten(url, hash) {
   });
 
   const saved = await shortUrl.save();
-  // TODO: Handle save errors
-
+  // TODO: Handle save errogrs
   return {
     url,
     shorten: `${SERVER}/${hash}`,
