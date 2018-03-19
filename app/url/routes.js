@@ -14,7 +14,6 @@ function validateRegister(req, res, next) {
 }
 
 router.get('/:hash', async (req, res, next) => {
-
   const source = await url.getUrl(req.params.hash);
   if(!source) {
     return res.status(404).json({err: { msg: 'Hash not found'}});
