@@ -1,6 +1,17 @@
 const router = require('express').Router();
 const url = require('./url');
 
+function validateRegister(req, res, next) {
+  req.checkBody('url', 'You must supply a url!').notEmpty();
+  const errors = req.validationErrors();
+  if (errors) {
+    return res.status(422).json({ err: errors.map(e => ({
+      param: e.param,
+      msg: e.msg}))
+    });
+  } else
+    next();
+}
 
 router.get('/:hash', async (req, res, next) => {
 
@@ -24,14 +35,12 @@ router.get('/:hash', async (req, res, next) => {
 });
 
 
-router.post('/', async (req={body:{url:''}}, res, next) => {
-  // TODO: Validate 'req.body.url' presence
-
+router.post('/', validateRegister, async (req, res, next) => {
   try {
-    let shortUrl = await url.shorten(req.body.url, url.generateHash(req.body.url));
+    let shortUrl = await url.shorten(req.body.url, url.generateHash());
     res.json(shortUrl);
   } catch (e) {
-    // TODO: Personalized Error Messages
+    res.status(500).send({error: "Unexpected Error,something went wrong please try agan later :)"})
     next(e);
   }
 });
