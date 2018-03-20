@@ -116,7 +116,6 @@ test('Should get a 404  when the hash was not found', done =>{
 
 test('Should remove the information when the hash and removetoken make match', done =>{
   let hash;
-  let removeToken;
 
   return req
     .post(URL)
@@ -133,7 +132,6 @@ test('Should remove the information when the hash and removetoken make match', d
     .then((res)  => {
       const body = res.body
       hash = body.hash;
-      removeToken = body.removeToken;
       return req
         .delete(`${URL}${body.hash}/${body.removeToken}`)
         .set('Accept', 'application/json')

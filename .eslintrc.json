@@ -1,6 +1,7 @@
 {
   "plugins": [
-    "node"
+    "node",
+    "jest"
   ],
   "extends": [
     "eslint:recommended",
@@ -11,5 +12,8 @@
       "error",
       "module.exports"
     ]
+  },
+  "env":{
+    "jest/globals": true
   }
 }

@@ -91,7 +91,7 @@ function isValid(url) {
 
 async function updateUrl(source) {
   return await UrlModel.findByIdAndUpdate({_id: source._id}, source).exec()
-};
+}
 
 async function removeUrl(hash, removeToken) {
   return await UrlModel.remove({hash, removeToken}).exec();

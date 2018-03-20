@@ -34,6 +34,7 @@ module.exports = mongoose.model('Url', new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+
   removedAt: Date,
 
   active: {
