@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const cors = require('cors');
 const url = require('./app/url/routes');
 
 const app = express();
@@ -8,6 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
+app.use(cors());
 
 app.use('/', url);
 

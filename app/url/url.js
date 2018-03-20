@@ -68,8 +68,9 @@ async function shorten(url, hash) {
     removeToken,
     active: true
   });
-
-  const saved = await shortUrl.save();
+  try {
+    await shortUrl.save();
+  } catch(e) {}
   // TODO: Handle save errogrs
   return {
     url,
